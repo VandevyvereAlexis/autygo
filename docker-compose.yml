@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+  autygo-api:
+    container_name: autygo-api
+    build:
+      context: ./backend
+    ports:
+      - "8000:80"
+    volumes:
+      - ./backend:/var/www/app
+    depends_on:
+      - mysql_db
+
+  autygo-frontend:
+    container_name: autygo-frontend
+    build:
+      context: ./frontend
+    ports:
+      - "8080:80"
+    volumes:
+      - ./frontend:/app
+
+  autygo-tests:
+    container_name: autygo-tests
+    build:
+      context: ./tests
+    volumes:
+      - ./tests:/autygo-tests
+
+  mysql_db:
+    image: mysql:8.3
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: autygo
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+
