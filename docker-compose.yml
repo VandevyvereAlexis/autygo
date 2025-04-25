@@ -5,6 +5,8 @@ services:
     container_name: autygo-api
     build:
       context: ./backend
+      args:
+        MODE: test     # ou "prod" pour passer à la prod.
     ports:
       - "8000:80"
     volumes:
@@ -38,6 +40,19 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: autygo-phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql_db
+      PMA_USER: root
+      PMA_PASSWORD: root
+    depends_on:
+      - mysql_db
+
 
 volumes:
   mysql_data:
