@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('marques', function (Blueprint $table) {
+        Schema::create('modeles', function (Blueprint $table) {
             $table->id();
+            $table->string('nom', 50)->unique();
+            $table->foreignId('marque_id')->constrained('marques')->restrictOnDelete();
+            $table->unique(['nom', 'marque_id']);
             $table->timestamps();
         });
     }
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('marques');
+        Schema::dropIfExists('modeles');
     }
 };

@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('annonces', function (Blueprint $table) {
+        Schema::create('avis', function (Blueprint $table) {
             $table->id();
+            $table->unsignedTinyInteger('note');
+            $table->string('commentaire', 500);
+            $table->foreignId('acheteur_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('vendeur_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('annonces');
+        Schema::dropIfExists('avis');
     }
 };
