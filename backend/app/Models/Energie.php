@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Energie extends Model
 {
-    //
+    protected $fillable = ['nom'];
+
+    public function annonces()
+    {
+        return $this->hasMany(Annonce::class);
+    }
 }
