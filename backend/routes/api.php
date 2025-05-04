@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ConditionController;
 use App\Http\Controllers\Api\CouleurController;
 use App\Http\Controllers\Api\EnergieController;
 use App\Http\Controllers\Api\MarqueController;
@@ -25,3 +26,4 @@ Route::apiResource('types', TypeController::class);
 Route::apiResource('portes', PorteController::class);
 Route::apiResource('places', PlaceController::class);
 Route::apiResource('couleurs', CouleurController::class);
+Route::apiResource('conditions', ConditionController::class);
