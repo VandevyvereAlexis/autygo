@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\EnergieController;
 use App\Http\Controllers\Api\MarqueController;
 use App\Http\Controllers\Api\ModeleController;
+use App\Http\Controllers\Api\PorteController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\TransmissionController;
 use App\Http\Controllers\Api\TypeController;
@@ -19,3 +20,4 @@ Route::apiResource('modeles', ModeleController::class);
 Route::apiResource('energies', EnergieController::class)->parameters(['energies' => 'energie']);
 Route::apiResource('transmissions', TransmissionController::class);
 Route::apiResource('types', TypeController::class);
+Route::apiResource('portes', PorteController::class);
