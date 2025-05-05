@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\PorteController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\TransmissionController;
 use App\Http\Controllers\Api\TypeController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,5 @@ Route::apiResource('portes', PorteController::class);
 Route::apiResource('places', PlaceController::class);
 Route::apiResource('couleurs', CouleurController::class);
 Route::apiResource('conditions', ConditionController::class);
+Route::apiResource('users', UserController::class);
+Route::put('users/{user}/password', [UserController::class, 'changePassword']);
