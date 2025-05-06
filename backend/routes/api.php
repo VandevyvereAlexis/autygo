@@ -15,6 +15,8 @@ use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\TransmissionController;
 use App\Http\Controllers\Api\TypeController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ConversationController;
+use App\Http\Controllers\Api\MessageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -38,5 +40,7 @@ Route::apiResource('avis', AvisController::class)->parameters(['avis' => 'avis']
 Route::apiResource('annonces', AnnonceController::class);
 Route::apiResource('images', ImageController::class);
 Route::apiResource('favoris', FavorisController::class)->parameters(['favoris' => 'favoris']);
-
-
+Route::apiResource('conversations', ConversationController::class);
+Route::apiResource('messages', MessageController::class);
+Route::apiResource('conversations', ConversationController::class);
+Route::apiResource('messages', MessageController::class);
