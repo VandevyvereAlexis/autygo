@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AnnonceController;
 use App\Http\Controllers\Api\AvisController;
 use App\Http\Controllers\Api\ConditionController;
 use App\Http\Controllers\Api\CouleurController;
@@ -32,4 +33,6 @@ Route::apiResource('conditions', ConditionController::class);
 Route::apiResource('users', UserController::class);
 Route::put('users/{user}/password', [UserController::class, 'changePassword']);
 Route::apiResource('avis', AvisController::class)->parameters(['avis' => 'avis']);
+Route::apiResource('annonces', AnnonceController::class);
+
 
