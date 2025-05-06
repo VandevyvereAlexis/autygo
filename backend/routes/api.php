@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AvisController;
 use App\Http\Controllers\Api\ConditionController;
 use App\Http\Controllers\Api\CouleurController;
 use App\Http\Controllers\Api\EnergieController;
+use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\MarqueController;
 use App\Http\Controllers\Api\ModeleController;
 use App\Http\Controllers\Api\PlaceController;
@@ -34,5 +35,7 @@ Route::apiResource('users', UserController::class);
 Route::put('users/{user}/password', [UserController::class, 'changePassword']);
 Route::apiResource('avis', AvisController::class)->parameters(['avis' => 'avis']);
 Route::apiResource('annonces', AnnonceController::class);
+Route::apiResource('images', ImageController::class);
+
 
 
