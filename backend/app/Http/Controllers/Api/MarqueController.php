@@ -12,6 +12,14 @@ use Illuminate\Http\JsonResponse;
 class MarqueController extends Controller
 {
 
+    public function __construct()
+    {
+        // Seules les méthodes index() et show() restent publiques
+        $this->middleware('auth:sanctum')
+             ->except(['index', 'show']);
+    }
+
+
     // 1. Lister toutes les marques
     public function index(): JsonResponse
     {

@@ -12,6 +12,12 @@ use App\Http\Requests\UpdateConversationRequest;
 class ConversationController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
+
+
     // 1. Liste toutes les conversations
     public function index(): JsonResponse
     {

@@ -12,6 +12,12 @@ use App\Http\Requests\UpdateFavorisRequest;
 class FavorisController extends Controller
 {
 
+    public function __construct()
+    {
+        // Seules les méthodes index() et show() restent publiques
+        $this->middleware('auth:sanctum');
+    }
+
     // 1. Lister tous les favoris
     public function index(): JsonResponse
     {

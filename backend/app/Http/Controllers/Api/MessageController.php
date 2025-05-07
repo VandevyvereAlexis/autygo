@@ -12,6 +12,13 @@ use App\Http\Requests\UpdateMessageRequest;
 class MessageController extends Controller
 {
 
+    public function __construct()
+    {
+        // Seules les méthodes index() et show() restent publiques
+        $this->middleware('auth:sanctum');
+    }
+
+
     // 1. Liste tous les messages (généralement limité à une conversation côté front)
     public function index(): JsonResponse
     {

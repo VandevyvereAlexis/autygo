@@ -12,6 +12,14 @@ use Illuminate\Http\JsonResponse;
 class ConditionController extends Controller
 {
 
+    public function __construct()
+    {
+        // Seules les méthodes index() et show() restent publiques
+        $this->middleware('auth:sanctum')
+             ->except(['index', 'show']);
+    }
+
+
     // 1. Lister toutes les conditions
     public function index(): JsonResponse
     {

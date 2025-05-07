@@ -14,6 +14,13 @@ use App\Http\Requests\UpdatePasswordRequest;
 class UserController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
+
+    
+
     // Lister tous les utilisateurs
     public function index(): JsonResponse
     {

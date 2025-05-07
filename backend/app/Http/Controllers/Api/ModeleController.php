@@ -12,6 +12,14 @@ use Illuminate\Http\JsonResponse;
 class ModeleController extends Controller
 {
 
+    public function __construct()
+    {
+        // Seules les méthodes index() et show() restent publiques
+        $this->middleware('auth:sanctum')
+             ->except(['index', 'show']);
+    }
+
+
     // 1. Lister tous les modèles
     public function index(): JsonResponse
     {

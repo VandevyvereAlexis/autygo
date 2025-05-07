@@ -12,6 +12,12 @@ use Illuminate\Http\JsonResponse;
 class RoleController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
+
+    
     // 1. Lister tous les rôles
     public function index(): JsonResponse
     {
