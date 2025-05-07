@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\TypeController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ConversationController;
 use App\Http\Controllers\Api\MessageController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -44,3 +45,5 @@ Route::apiResource('conversations', ConversationController::class);
 Route::apiResource('messages', MessageController::class);
 Route::apiResource('conversations', ConversationController::class);
 Route::apiResource('messages', MessageController::class);
+Route::post('/register', [RegisterController::class, 'register']);
+
