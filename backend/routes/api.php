@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\TypeController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ConversationController;
 use App\Http\Controllers\Api\MessageController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
@@ -47,5 +48,8 @@ Route::apiResource('messages', MessageController::class);
 Route::apiResource('conversations', ConversationController::class);
 Route::apiResource('messages', MessageController::class);
 Route::post('/register', [RegisterController::class, 'register']);
+Route::get ('/profile', [ProfileController::class,'show']);
+Route::put ('/profile', [ProfileController::class,'update']);
+Route::put ('/profile/password',[ProfileController::class,'updatePassword']);
 
 Route::middleware(['auth:sanctum'])->get('/user', [LoginController::class, 'me']);
