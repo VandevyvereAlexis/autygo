@@ -14,8 +14,8 @@ class FavorisController extends Controller
 
     public function __construct()
     {
-        // Seules les méthodes index() et show() restent publiques
         $this->middleware('auth:sanctum');
+        $this->authorizeResource(Favoris::class, 'favoris');
     }
 
     // 1. Lister tous les favoris

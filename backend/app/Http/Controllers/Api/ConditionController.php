@@ -14,9 +14,16 @@ class ConditionController extends Controller
 
     public function __construct()
     {
-        // Seules les méthodes index() et show() restent publiques
+        // Pas d'auth ni de policy sur index/show (publics)
         $this->middleware('auth:sanctum')
-             ->except(['index', 'show']);
+            ->except(['index', 'show']);
+
+        // Liaison automatique create/update/delete à la policy
+        $this->authorizeResource(
+            Condition::class,
+            'condition',
+            ['except' => ['index', 'show']]
+        );
     }
 
 

@@ -14,9 +14,16 @@ class TransmissionController extends Controller
 
     public function __construct()
     {
-        // Seules les méthodes index() et show() restent publiques
+        // Pas d'auth ni de policy sur index/show (publics)
         $this->middleware('auth:sanctum')
              ->except(['index', 'show']);
+
+        // Lier create/update/delete à TransmissionPolicy
+        $this->authorizeResource(
+            Transmission::class,
+            'transmission',
+            ['except' => ['index', 'show']]
+        );
     }
 
 

@@ -14,9 +14,16 @@ class AnnonceController extends Controller
 
     public function __construct()
     {
-        // Seules index() et show() restent publiques
-        $this->middleware('auth:sanctum')
-             ->except(['index', 'show']);
+        // Pas d'auth ni de policy sur index/show (publics)
+        $this->middleware('auth:sanctum') 
+            ->except(['index', 'show']);
+
+        // Liaison automatique create/update/delete à la policy
+        $this->authorizeResource(
+            Annonce::class,
+            'annonce',
+            ['except' => ['index', 'show']]
+        );
     }
 
 

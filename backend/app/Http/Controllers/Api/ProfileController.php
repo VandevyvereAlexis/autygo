@@ -23,6 +23,10 @@ class ProfileController extends Controller
     public function show(Request $request): JsonResponse
     {
         $user = $request->user()->load('role');
+
+        // Policy : view
+        $this->authorize('view', $user);
+
         return response()->json($user);
     }
 
@@ -31,6 +35,10 @@ class ProfileController extends Controller
     public function update(UpdateProfileRequest $request): JsonResponse
     {
         $user = $request->user();
+
+        // Policy : update
+        $this->authorize('update', $user);
+
         $data = $request->validated();
 
         if ($request->hasFile('image')) {
@@ -49,6 +57,11 @@ class ProfileController extends Controller
     public function updatePassword(UpdateProfilePasswordRequest $request): JsonResponse
     {
         $user = $request->user();
+
+        // Policy : updatePassword
+        $this->authorize('updatePassword', $user);
+
+
         $user->password = Hash::make($request->input('password'));
         $user->save();
 

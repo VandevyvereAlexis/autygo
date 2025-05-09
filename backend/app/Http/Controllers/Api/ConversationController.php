@@ -15,6 +15,7 @@ class ConversationController extends Controller
     public function __construct()
     {
         $this->middleware('auth:sanctum');
+        $this->authorizeResource(Conversation::class, 'conversation');
     }
 
 

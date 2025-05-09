@@ -14,9 +14,16 @@ class PlaceController extends Controller
 
     public function __construct()
     {
-        // Seules les méthodes index() et show() restent publiques
+        // Pas d'auth ni de policy sur index/show (publics)
         $this->middleware('auth:sanctum')
-             ->except(['index', 'show']);
+            ->except(['index', 'show']);
+
+        // Policy appliquée sur store/update/destroy
+        $this->authorizeResource(
+            Place::class,
+            'place',
+            ['except' => ['index', 'show']]
+        );
     }
 
 

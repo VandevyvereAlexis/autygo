@@ -14,9 +14,16 @@ class PorteController extends Controller
 
     public function __construct()
     {
-        // Seules les méthodes index() et show() restent publiques
+        // Pas d'auth ni policy sur index/show (publics)
         $this->middleware('auth:sanctum')
-             ->except(['index', 'show']);
+            ->except(['index', 'show']);
+
+        // Policy sur store/update/destroy
+        $this->authorizeResource(
+            Porte::class,
+            'porte',
+            ['except' => ['index', 'show']]
+        );
     }
 
 

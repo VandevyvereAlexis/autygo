@@ -14,9 +14,16 @@ class TypeController extends Controller
 
     public function __construct()
     {
-        // Seules les méthodes index() et show() restent publiques
+        // Pas d'auth ni de policy sur index/show (publics)
         $this->middleware('auth:sanctum')
              ->except(['index', 'show']);
+
+        // Lier create/update/delete à la TypePolicy
+        $this->authorizeResource(
+            Type::class,
+            'type',
+            ['except' => ['index', 'show']]
+        );
     }
 
 
