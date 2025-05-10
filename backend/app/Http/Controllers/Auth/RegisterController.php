@@ -10,6 +10,8 @@ use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RegisterEmail;
 
 class RegisterController extends Controller
 {
@@ -29,6 +31,10 @@ class RegisterController extends Controller
 
         // Création de l'utilisateur
         $user = User::create($data);
+
+        // Envoi du mail de bienvenue
+        Mail::to($user->email)
+            ->send(new RegisterEmail($user));
 
         // Authentification de l'utilisateur
         Auth::login($user);
