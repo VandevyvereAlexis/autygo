@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ConversationController;
 use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
@@ -26,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
 
 Route::apiResource('roles', RoleController::class);
 Route::apiResource('marques', MarqueController::class);
@@ -37,8 +39,6 @@ Route::apiResource('portes', PorteController::class);
 Route::apiResource('places', PlaceController::class);
 Route::apiResource('couleurs', CouleurController::class);
 Route::apiResource('conditions', ConditionController::class);
-Route::apiResource('users', UserController::class);
-Route::put('users/{user}/password', [UserController::class, 'changePassword']);
 Route::apiResource('avis', AvisController::class)->parameters(['avis' => 'avis']);
 Route::apiResource('annonces', AnnonceController::class);
 Route::apiResource('images', ImageController::class);
@@ -47,9 +47,22 @@ Route::apiResource('conversations', ConversationController::class);
 Route::apiResource('messages', MessageController::class);
 Route::apiResource('conversations', ConversationController::class);
 Route::apiResource('messages', MessageController::class);
+
+
+Route::apiResource('users', UserController::class);
+Route::put('users/{user}/password', [UserController::class, 'changePassword']);
+
+
 Route::post('/register', [RegisterController::class, 'register']);
+
+
 Route::get ('/profile', [ProfileController::class,'show']);
 Route::put ('/profile', [ProfileController::class,'update']);
 Route::put ('/profile/password',[ProfileController::class,'updatePassword']);
 
+
 Route::middleware(['auth:sanctum'])->get('/user', [LoginController::class, 'me']);
+
+
+Route::post('/password/email', [ForgotPasswordController::class, 'email'])->name('password.email');
+Route::post('/password/reset', [ForgotPasswordController::class, 'reset'])->name('password.reset');
