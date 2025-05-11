@@ -11,7 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\RegisterEmail;
+use Illuminate\Support\Str;
+use App\Mail\VerifyEmail;
 
 class RegisterController extends Controller
 {
@@ -32,16 +33,19 @@ class RegisterController extends Controller
         // Création de l'utilisateur
         $user = User::create($data);
 
-        // Envoi du mail de bienvenue
-        Mail::to($user->email)
-            ->send(new RegisterEmail($user));
+        // Génère le token et l’enregistre
+        $user->email_verification_token = Str::random(64);
+        $user->save();
+
+        // Envoi du mail
+        Mail::to($user->email)->send(new VerifyEmail($user));
 
         // Authentification de l'utilisateur
         Auth::login($user);
 
         return response()->json([
-            'message' => 'Inscription réussie.',
-            'user' => $user
+            'message' => 'Inscription OK, un mail de vérification a été envoyé.',
+            'user'    => $user->only('id','nom','prenom','pseudo','email','email_verification_token')
         ], Response::HTTP_CREATED);
     }
 

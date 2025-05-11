@@ -19,6 +19,10 @@ return new class extends Migration
             $table->string('email', 100)->unique();
             $table->string('image', 100)->default('defaultUser.jpg');
             $table->timestamp('email_verified_at')->nullable();
+
+            // votre token de vérification
+            $table->string('email_verification_token', 64)->nullable();
+
             $table->string('password', 255);
             $table->foreignId('role_id')->default(1)->constrained('roles')->restrictOnDelete();
             $table->rememberToken();

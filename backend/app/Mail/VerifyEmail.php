@@ -10,16 +10,21 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class RegisterEmail extends Mailable
+class VerifyEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
     public User $user;
 
+
+    /**
+     * Create a new message instance.
+     */
     public function __construct(User $user)
     {
         $this->user = $user;
     }
+
 
     /**
      * Get the message envelope.
@@ -27,7 +32,7 @@ class RegisterEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Bienvenue sur AutyGo !',
+            subject: 'Vérification de votre adresse e-mail',
         );
     }
 
@@ -37,9 +42,10 @@ class RegisterEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.register', 
+            view: 'emails.verify-email',
             with: [
-                'user' => $this->user,      // passe l’utilisateur à la vue
+                'prenom' => $this->user->prenom,
+                'token'  => $this->user->email_verification_token,
             ],
         );
     }

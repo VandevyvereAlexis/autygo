@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\VerificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -54,6 +55,7 @@ Route::put('users/{user}/password', [UserController::class, 'changePassword']);
 
 
 Route::post('/register', [RegisterController::class, 'register']);
+Route::get('/email/verify/{token}', [VerificationController::class, 'verify']);
 
 
 Route::get ('/profile', [ProfileController::class,'show']);
