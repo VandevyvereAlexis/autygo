@@ -3,6 +3,9 @@
     import router from '@/router';
     import * as AccountService from '../services/AccountService';
     import FormError from '../components/FormError.vue';
+    import { useUserStore } from '@/stores/User';
+
+    const userStore = useUserStore();
 
     const auth = ref({
         email: '',
@@ -17,9 +20,19 @@
     });
 
     async function login() {
+        // Reset des erreurs
+        errors.value = {};
+        errorMessage.value = '';
+
         try {
+            // AccountService.login met déjà à jour le store automatiquement
             await AccountService.login(auth.value);
+            
             console.log('Connexion réussie !');
+            console.log('Utilisateur connecté:', userStore.user);
+            console.log('Est admin:', userStore.isAdmin);
+            console.log('Rôle:', userStore.user.role?.nom);
+            
             router.push('/');
         } catch(error: any) {
             console.error('Erreur de connexion:', error);
@@ -32,15 +45,11 @@
                     errorMessage.value = 'Erreur de connexion, veuillez réessayer.';
                 }
             } else {
-            errorMessage.value = 'Erreur de connexion, veuillez réessayer.';
+                errorMessage.value = 'Erreur de connexion, veuillez réessayer.';
             }
         }
     }
 </script>
-
-
-
-
 
 <template>
     

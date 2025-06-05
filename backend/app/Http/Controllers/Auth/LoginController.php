@@ -12,7 +12,7 @@ use App\Models\User;
 class LoginController extends Controller
 {
     /**
-    * Connexion de l’utilisateur (cookie-based).
+    * Connexion de l'utilisateur (cookie-based).
     */
     public function login(LoginRequest $request)
     {
@@ -27,8 +27,8 @@ class LoginController extends Controller
         // 2. Régénère la session pour éviter la fixation de session
         $request->session()->regenerate();
 
-        // 3. Récupère l'utilisateur connecté
-        $user = Auth::user();
+        // 3. Récupère l'utilisateur connecté avec sa relation role
+        $user = User::with('role')->find(Auth::id());
 
         // 4. Prépare la réponse avec un indicateur de vérification
         $response = [
@@ -48,7 +48,7 @@ class LoginController extends Controller
     }
 
     /**
-     * Déconnexion de l’utilisateur.
+     * Déconnexion de l'utilisateur.
      */
     public function logout(Request $request)
     {
@@ -63,14 +63,17 @@ class LoginController extends Controller
     }
 
     /**
-     * Retourne l’utilisateur authentifié.
+     * Retourne l'utilisateur authentifié.
      * Utile pour le frontend après rechargement de page.
      */
     public function me(Request $request)
     {
         if (Auth::check()) {
+            // Charger la relation role
+            $user = User::with('role')->find(Auth::id());
+            
             return response()->json([
-                'user' => $request->user(),
+                'user' => $user,
             ], Response::HTTP_OK);
         }
         

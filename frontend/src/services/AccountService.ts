@@ -27,17 +27,18 @@ AxiosAuth.interceptors.response.use(
   }
 );
 
-// Authentification de l'utilisateur
-export async function login(credentials: { email: string, password: string }): Promise<void> {
+// Authentification de l'utilisateur - RETOURNE maintenant la réponse
+export async function login(credentials: { email: string, password: string }) {
   try {
     await AxiosAuth.get('/sanctum/csrf-cookie');
-    const res = await AxiosAuth.post('/login', credentials);
+    const response = await AxiosAuth.post('/login', credentials);
+    
+    // Mettre à jour le store ici aussi pour maintenir la compatibilité
     const userStore = useUserStore();
-
-    userStore.setUser({
-      email: res.data.user.email,
-      role: res.data.user.role
-    });
+    userStore.setUser(response.data.user);
+    
+    // Retourner la réponse pour que LoginView puisse y accéder
+    return response;
   } catch (error) {
     console.error('Erreur de connexion:', error);
     throw error;
