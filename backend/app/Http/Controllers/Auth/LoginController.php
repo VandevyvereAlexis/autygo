@@ -11,22 +11,12 @@ use App\Models\User;
 
 class LoginController extends Controller
 {
-     /**
-     * Connexion de l’utilisateur (cookie-based).
-     */
+    /**
+    * Connexion de l’utilisateur (cookie-based).
+    */
     public function login(LoginRequest $request)
     {
-        // 1. On charge l'utilisateur via son e-mail
-        $user = User::where('email', $request->input('email'))->first();
-
-        // 2. Si trouvé et pas encore vérifié → 403
-        if ($user && is_null($user->email_verified_at)) {
-            return response()->json([
-                'error' => 'Vous devez d’abord vérifier votre adresse e-mail.'
-            ], Response::HTTP_FORBIDDEN);
-        }
-
-        // 3. Tente d'authentifier et de créer un cookie de session
+        // 1. Tente d'authentifier et de créer un cookie de session
         if (! Auth::attempt($request->only('email', 'password'), true)) {
             return response()->json(
                 ['error' => 'Identifiants incorrects.'],
@@ -34,13 +24,27 @@ class LoginController extends Controller
             );
         }
 
-        // 4. Régénère la session pour éviter la fixation de session
+        // 2. Régénère la session pour éviter la fixation de session
         $request->session()->regenerate();
 
-        return response()->json([
+        // 3. Récupère l'utilisateur connecté
+        $user = Auth::user();
+
+        // 4. Prépare la réponse avec un indicateur de vérification
+        $response = [
             'message' => 'Connexion réussie',
-            'user'    => Auth::user(),
-        ], Response::HTTP_OK);
+            'user'    => $user,
+        ];
+
+        // 5. Ajoute un message si l'email n'est pas vérifié
+        if (is_null($user->email_verified_at)) {
+            $response['warning'] = 'Votre adresse e-mail n\'est pas encore vérifiée. Certaines fonctionnalités peuvent être limitées.';
+            $response['email_verified'] = false;
+        } else {
+            $response['email_verified'] = true;
+        }
+
+        return response()->json($response, Response::HTTP_OK);
     }
 
     /**
@@ -64,8 +68,14 @@ class LoginController extends Controller
      */
     public function me(Request $request)
     {
+        if (Auth::check()) {
+            return response()->json([
+                'user' => $request->user(),
+            ], Response::HTTP_OK);
+        }
+        
         return response()->json([
-            'user' => $request->user(),
-        ], Response::HTTP_OK);
+            'user' => null,
+        ], Response::HTTP_UNAUTHORIZED);
     }
 }

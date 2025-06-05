@@ -61,10 +61,3 @@ Route::get('/email/verify/{token}', [VerificationController::class, 'verify']);
 Route::get ('/profile', [ProfileController::class,'show']);
 Route::put ('/profile', [ProfileController::class,'update']);
 Route::put ('/profile/password',[ProfileController::class,'updatePassword']);
-
-
-Route::middleware(['auth:sanctum'])->get('/user', [LoginController::class, 'me']);
-
-
-Route::post('/password/email', [ForgotPasswordController::class, 'email'])->name('password.email');
-Route::post('/password/reset', [ForgotPasswordController::class, 'reset'])->name('password.reset');
